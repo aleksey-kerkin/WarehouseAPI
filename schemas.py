@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import List
+from typing import List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class ProductBase(BaseModel):
@@ -10,8 +10,10 @@ class ProductBase(BaseModel):
     price: float
     quantity: int
 
+
 class ProductCreate(ProductBase):
     pass
+
 
 class Product(ProductBase):
     id: int
@@ -19,12 +21,15 @@ class Product(ProductBase):
     class Config:
         from_attributes = True
 
+
 class OrderItemBase(BaseModel):
     product_id: int
     quantity: int
 
+
 class OrderItemCreate(OrderItemBase):
     pass
+
 
 class OrderItem(OrderItemBase):
     id: int
@@ -33,11 +38,16 @@ class OrderItem(OrderItemBase):
     class Config:
         from_attributes = True
 
+
 class OrderBase(BaseModel):
-    status: str
+    status: Optional[str] = Field(
+        default="в процессе", description="Статус заказа"
+    )
+
 
 class OrderCreate(OrderBase):
     items: List[OrderItemCreate]
+
 
 class Order(OrderBase):
     id: int
