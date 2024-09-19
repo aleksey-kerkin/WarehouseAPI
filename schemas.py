@@ -1,4 +1,5 @@
 from datetime import datetime
+from enum import Enum
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
@@ -56,3 +57,9 @@ class Order(OrderBase):
 
     class Config:
         from_attributes = True
+
+
+class OrderStatus(str, Enum):
+    in_progress = "в процессе"
+    shipped = "отправлен"
+    delivered = "доставлен"
